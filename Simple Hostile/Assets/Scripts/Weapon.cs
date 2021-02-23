@@ -19,7 +19,8 @@ namespace Com.Kawaiisun.SimpleHostile
         public AudioSource sfx;
         public AudioClip hitmarkerSound;
         public bool isAiming = false;
-
+        public IK left;
+        public IK right;
         private float currentCooldown;
         private int currentIndex;
         private GameObject currentWeapon;
@@ -137,7 +138,7 @@ namespace Com.Kawaiisun.SimpleHostile
             t_newWeapon.transform.localPosition = Vector3.zero;
             t_newWeapon.transform.localEulerAngles = Vector3.zero;
             t_newWeapon.GetComponent<Sway>().isMine = photonView.IsMine;
-
+            SetupIK(t_newWeapon.transform);
             if (photonView.IsMine) ChangeLayersRecursively(t_newWeapon, 10);
             else ChangeLayersRecursively(t_newWeapon, 0);
 
@@ -145,6 +146,25 @@ namespace Com.Kawaiisun.SimpleHostile
 
             currentWeapon = t_newWeapon;
             currentGunData = loadout[p_ind];
+        }
+
+        void SetupIK(Transform obj)
+        {
+            foreach(Transform child in obj)
+            {
+                if(child.CompareTag("Left"))
+                {
+                    left.Target = child;
+                }
+                else if(child.CompareTag("Right"))
+                {
+                    right.Target = child;
+                }
+                else
+                {
+                    SetupIK(child);
+                }
+            }
         }
 
         [PunRPC]
@@ -185,12 +205,16 @@ namespace Com.Kawaiisun.SimpleHostile
             if (p_isAiming)
             {
                 //aim
+                if (currentWeapon.GetComponent<Animator>())
+                    currentWeapon.GetComponent<Animator>().enabled = false;
                 t_anchor.position = Vector3.Lerp(t_anchor.position, t_state_ads.position, Time.deltaTime * loadout[currentIndex].aimSpeed);
             }
             else
             {
                 //hip
                 t_anchor.position = Vector3.Lerp(t_anchor.position, t_state_hip.position, Time.deltaTime * loadout[currentIndex].aimSpeed);
+                if (currentWeapon.GetComponent<Animator>())
+                    currentWeapon.GetComponent<Animator>().enabled = true;
             }
 
             return p_isAiming;

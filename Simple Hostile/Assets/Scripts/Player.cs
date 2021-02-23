@@ -29,6 +29,7 @@ namespace Com.Kawaiisun.SimpleHostile
         public Transform weaponParent;
         public Transform groundDetector;
         public LayerMask ground;
+        public float Checkraylength;
 
         [HideInInspector] public ProfileData playerProfile;
         [HideInInspector] public bool awayTeam;
@@ -199,7 +200,7 @@ namespace Com.Kawaiisun.SimpleHostile
 
 
             //States
-            bool isGrounded = Physics.Raycast(groundDetector.position, Vector3.down, 0.15f, ground);
+            bool isGrounded = Physics.Raycast(groundDetector.position, Vector3.down, Checkraylength, ground);
             bool isJumping = jump && isGrounded;
             bool isSprinting = sprint && t_vmove > 0 && !isJumping && isGrounded;
             bool isCrouching = crouch && !isSprinting && !isJumping && isGrounded;
@@ -448,18 +449,10 @@ namespace Com.Kawaiisun.SimpleHostile
             }
 
 
-            //Animations
-            float t_anim_horizontal = 0f;
-            float t_anim_vertical = 0f;
+            
 
-            if (isGrounded)
-            {
-                t_anim_horizontal = t_direction.x;
-                t_anim_vertical = t_direction.z;
-            }
-
-            anim.SetFloat("Horizontal", t_anim_horizontal);
-            anim.SetFloat("Vertical", t_anim_vertical);
+            anim.SetFloat("Horizontal", t_hmove);
+            anim.SetFloat("Vertical", t_vmove);
         }
 
         private void LateUpdate()

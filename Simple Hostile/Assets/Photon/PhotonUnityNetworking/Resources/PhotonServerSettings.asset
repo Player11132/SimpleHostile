@@ -13,33 +13,33 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 
+    AppIdRealtime: 5ce526cb-78a3-4881-8a9f-059ab8734e92
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: us
+    FixedRegion: 
     Server: 
     Port: 0
     Protocol: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
   StartInOfflineMode: 0
-  PunLogging: 2
+  PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   RpcList:
   - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - Equip
-  - Shoot
-  - TakeDamage
-  - SetCrouch
-  - ReloadRPC
   - Disable
+  - Equip
+  - Fire
   - PickupWeapon
+  - ReloadRPC
+  - RespawnSpaceship
+  - SetCrouch
+  - Shoot
   - SyncProfile
   - SyncTeam
+  - TakeDamage
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
